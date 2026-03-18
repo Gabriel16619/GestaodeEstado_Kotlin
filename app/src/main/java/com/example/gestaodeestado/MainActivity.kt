@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.example.gestaodeestado.calculos.calcularJuros
 import com.example.gestaodeestado.calculos.calcularMontante
 import com.example.gestaodeestado.components.CaixaDeEntrada
+import com.example.gestaodeestado.components.CardResultado
 import com.example.gestaodeestado.ui.theme.GestaoDeEstadoTheme
 import androidx.compose.material3.Text as Text
 
@@ -55,6 +56,8 @@ class MainActivity : ComponentActivity() {
 }
                     @Composable
                     fun JurosScreen(modifier: Modifier = Modifier) {
+
+                        var corTema = Color(136, 38, 199, 255)
                         var capital by remember {
                             mutableStateOf("")
                         }
@@ -83,7 +86,7 @@ class MainActivity : ComponentActivity() {
                                 Column(
                                     modifier = Modifier.fillMaxWidth()
                                         .height(100.dp)
-                                        .background(color = Color(136, 38, 199, 255))
+                                       .background(color = Color(136, 38, 199, 255) )
                                         .padding(16.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
@@ -121,39 +124,41 @@ class MainActivity : ComponentActivity() {
                                                 fontSize = 24.sp,
                                                 fontWeight = FontWeight.Bold
                                             )
-
-//                                            OutlinedTextField(
-//                                                value = capital,
-//                                                onValueChange = { capital = it },
-//                                                modifier = Modifier.fillMaxWidth(),
-//                                                label = { Text(text = "Valor investimento") },
-//                                                placeholder = { Text(text = "Quanto deseja investir?") },
-//                                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
-//                                            )
+                                            1000
                                             CaixaDeEntrada(
                                                 label = "Valor investido",
                                                 placeholder = "Quanto deseja investir ",
                                                 keyboardType = KeyboardType.Decimal,
                                                 modifier = Modifier.fillMaxWidth(),
-                                                value = capital
+                                                value = capital,
+                                                corTema = corTema,
+                                                atualizarValor = {
+                                                    capital = it
+                                                }
                                             )
 
-                                            OutlinedTextField(
+                                            CaixaDeEntrada(
+                                                label = "taxa de juros",
+                                                placeholder = "Taxa de juros mensal ",
+                                                keyboardType = KeyboardType.Decimal,
+                                                modifier = Modifier.fillMaxWidth(),
                                                 value = taxa,
-                                                onValueChange = { taxa = it },
-                                                modifier = Modifier.fillMaxWidth(),
-                                                label = { Text(text = "Taxa de juros mensal") },
-                                                placeholder = { Text(text = "Qual a taxa de juros mensal?") },
-                                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                                                corTema = corTema,
+                                                atualizarValor = {
+                                                    taxa = it
+                                                }
                                             )
 
-                                            OutlinedTextField(
-                                                value = tempo,
-                                                onValueChange = { tempo = it },
+                                            CaixaDeEntrada(
+                                                label = "Tempo",
+                                                placeholder = "Período em meses",
+                                                keyboardType = KeyboardType.Decimal,
                                                 modifier = Modifier.fillMaxWidth(),
-                                                label = { Text(text = "Período em meses") },
-                                                placeholder = { Text(text = "Qual o tempo em meses?") },
-                                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                                                value = tempo,
+                                                corTema = corTema,
+                                                atualizarValor = {
+                                                    tempo = it
+                                                }
                                             )
 
                                             Button(
@@ -182,69 +187,8 @@ class MainActivity : ComponentActivity() {
                                         }
                                     }
 
+                                    CardResultado(juros = juros, montante = montante)
 
-                                    Card(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        colors = CardDefaults.cardColors(
-                                            containerColor = Color(0xFF329F6B)
-                                        ),
-                                        elevation = CardDefaults.cardElevation(4.dp)
-                                    ) {
-                                        Column (
-                                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                                            modifier = Modifier.fillMaxWidth()
-                                                .padding(24.dp)
-                                        ) {
-                                            Text(
-                                                text = "Resultado",
-                                                fontWeight = FontWeight.Bold,
-                                                color = Color.White,
-                                                fontSize = 28.sp,
-                                                textAlign = TextAlign.Start
-                                            )
-
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.spacedBy(16.dp)
-                                            ) {
-                                                Text(
-                                                    text = "Juros",
-                                                    fontWeight = FontWeight.Bold,
-                                                    color = Color.White,
-                                                    fontSize = 24.sp,
-                                                    textAlign = TextAlign.Start
-                                                )
-
-                                                Text(
-                                                    text = "$juros",
-                                                    fontWeight = FontWeight.Bold,
-                                                    color = Color.White,
-                                                    fontSize = 24.sp
-                                                )
-                                            }
-
-
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.spacedBy(16.dp)
-                                            ) {
-                                                Text(
-                                                    text = "Montante",
-                                                    fontWeight = FontWeight.Bold,
-                                                    color = Color.White,
-                                                    fontSize = 24.sp,
-                                                    textAlign = TextAlign.Start
-                                                )
-
-                                                Text(
-                                                    text = "$montante",
-                                                    fontWeight = FontWeight.Bold,
-                                                    color = Color.White,
-                                                    fontSize = 24.sp
-                                                )
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }
